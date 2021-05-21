@@ -1,28 +1,40 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="" id="app"> 
+      <div class="container grid-xs py-2"> 
+     
+          <img class="img-responsive img-logo" src="@/assets/logo.png" alt="Logomarca">
+          
+          <form @submit.prevent="addTodo(todo)"> 
+              <div class="input-group">
+                  <input type="text" v-model="todo.description" class="form-input" placeholder="Novo todo">
+                  <button class="btn btn-primary input-group-btn">Adicionar</button>
+              </div>
+              {{ todos }}
+          </form>
+      </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  data(){
+    return{ todos: [], todo: {checked: false} };
+  },
+  methods:{
+    addTodo(todo) {
+      todo.id = Date.now();
+      this.todos.push(todo)
+    }
   }
-}
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style scoped>
+  .img-logo{
+    max-width: 200px;
+    margin: 0 auto;
+  }
 </style>
+
