@@ -1,5 +1,5 @@
 <template>
-  <div class="" id="app"> 
+  <div class id="app"> 
       <div class="container grid-xs py-2"> 
      
           <img class="img-responsive img-logo" src="@/assets/logo.png" alt="Logomarca">
@@ -11,38 +11,34 @@
               </div>
           </form>
           <div class="todo-list">
-              <div class="tile" v-for="t in todos" :key="t.id">
-                      <div class="tile-icon">
-                            <i class="icon icon-time flex-centered"></i>
-                      </div>
-                      <div class="tile-content">
-                            <div class="tile-subtitle">{{ t.description }}</div>
-                      </div>
-                      <div class="tile-action">
-                          <button class="btn btn-link">Concluído</button>
-                          <button class="btn btn-link">
-                              <span class="text-error">Remover</span>
-                          </button>
-                      </div>
-              </div>
+              <todo v-for="t in todos" :key="t.id" @toggle="toggleTodo" :todo="t"/> 
           </div>
       </div>
   </div>
 </template>
 
 <script>
+import Todo from "./components/Todo";
 
 
 export default {
   name: 'App',
+  components: { Todo },
   data(){
-    return{ todos: [], todo: {checked: false} };
+    return{ todos: [], todo: { checked: false } };
   },
   methods:{
     addTodo(todo) {
       todo.id = Date.now();
       this.todos.push(todo)
-      this.todo = {checked: false}
+      this.todo = {checked: false};
+    },
+    toggleTodo(todo){
+      const index = this.todos.findIndex(item => item.id === todo.id)
+      if (index > -1){
+        const checked = !this.todos[index].checked
+        this.$set(this.todos, index, {...this.todos[index], checked})
+      }
     }
   }
 };
